@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 
 class Bubble {
   const Bubble(
-      {@required this.title,
-      @required this.titleStyle,
-      @required this.iconColor,
-      @required this.bubbleColor,
-      @required this.icon,
-      @required this.onPress});
+      {required this.title,
+      this.titleStyle,
+      this.iconColor,
+      this.bubbleColor,
+      this.icon,
+      required this.onPress,});
 
-  final IconData icon;
-  final Color iconColor;
-  final Color bubbleColor;
+  final IconData? icon;
+  final Color? iconColor;
+  final Color? bubbleColor;
   final Function onPress;
   final String title;
-  final TextStyle titleStyle;
+  final TextStyle? titleStyle;
 }
 
 class BubbleMenu extends StatelessWidget {
-  const BubbleMenu(this.item, {Key key}) : super(key: key);
+  const BubbleMenu(this.item, {Key? key}) : super(key: key);
 
   final Bubble item;
 
@@ -33,7 +33,7 @@ class BubbleMenu extends StatelessWidget {
       elevation: 2,
       highlightElevation: 2,
       disabledColor: item.bubbleColor,
-      onPressed: item.onPress,
+      onPressed: () => item.onPress,
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -64,11 +64,11 @@ class _DefaultHeroTag {
 
 class FloatingActionBubble extends AnimatedWidget {
   const FloatingActionBubble({
-    @required this.items,
-    @required this.onPress,
-    @required this.iconColor,
-    @required this.backGroundColor,
-    @required Animation animation,
+    required this.items,
+    required this.onPress,
+    required this.iconColor,
+    required this.backGroundColor,
+    required Animation animation,
     this.herotag,
     this.iconData,
     this.animatedIconData,
@@ -78,11 +78,11 @@ class FloatingActionBubble extends AnimatedWidget {
 
   final List<Bubble> items;
   final Function onPress;
-  final AnimatedIconData animatedIconData;
-  final Object herotag;
-  final IconData iconData;
-  final Color iconColor;
-  final Color backGroundColor;
+  final AnimatedIconData? animatedIconData;
+  final Object? herotag;
+  final IconData? iconData;
+  final Color? iconColor;
+  final Color? backGroundColor;
 
   get _animation => listenable;
 
@@ -90,7 +90,7 @@ class FloatingActionBubble extends AnimatedWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     TextDirection textDirection =
-        Directionality.of(context) ?? TextDirection.ltr;
+        Directionality.maybeOf(context) ?? TextDirection.ltr;
 
     double animationDirection = textDirection == TextDirection.ltr ? -1 : 1;
 
@@ -140,7 +140,7 @@ class FloatingActionBubble extends AnimatedWidget {
           // only 1 can be null at the time
           child: iconData == null
               ? AnimatedIcon(
-                  icon: animatedIconData,
+                  icon: animatedIconData!,
                   progress: _animation,
                   color: iconColor,
                 )
@@ -148,7 +148,7 @@ class FloatingActionBubble extends AnimatedWidget {
                   iconData,
                   color: iconColor,
                 ),
-          onPressed: onPress,
+          onPressed: () => onPress,
         ),
       ],
     );
